@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import 'swiper/css';
 import Lottie from 'react-lottie'
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Product } from '../../utils/mockedData'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -10,6 +9,7 @@ import { setNewCartItem } from '../../utils/cartItems';
 import { Dialog, Stack, Typography } from '@mui/material'
 import addToBagAnimation from '../../public/animations/addToBag.json'
 import { SellOutlined, ShoppingBagOutlined } from '@mui/icons-material';
+import { CSScolorfulBackground } from '../../utils/cssStyles';
 
 interface AddProductModalProps extends SetCurrentScreen {
   isOpen: boolean
@@ -18,7 +18,6 @@ interface AddProductModalProps extends SetCurrentScreen {
 }
 
 export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, product, setCurrentScreen }) => {
-  const router = useRouter()
   const [selectedSize, setSelectedSize] = useState<string>()
   const [addItemToBag, setAddItemToBag] = useState<boolean>(false)
   const [selectedColor, setSelectedColor] = useState<string>()
@@ -213,28 +212,24 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             borderRadius={2}
             alignItems='center'
             position='relative'
+            sx={CSScolorfulBackground}
             justifyContent='space-between'
             border='1px solid rgba(0,0,0,.1)'
-            onClick={() => router.push('/finishOrder')}
-            sx={{
-              cursor: 'pointer',
-              ':before': {
-                top: 0,
-                left: -2,
-                zIndex: -1,
-                opacity: .5,
-                content: '""',
-                width: '100%',
-                height: '100%',
-                filter: 'blur(6px)',
-                position: 'absolute',
-                transition: 'all .3s',
-                background: 'linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%)',
-              }
-            }}
+            onClick={() => setCurrentScreen(2)}
           >
-            <Typography variant='button'>Comprar agora</Typography>
-            <SellOutlined />
+            <Typography
+              variant='button'
+              sx={{
+                color: 'transparent',
+                backgroundClip: 'text',
+                mozBackgroundClip: 'text',
+                webkitBackgroundClip: 'text',
+                backgroundImage: 'linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%)',
+              }}
+            >
+              Comprar agora
+            </Typography>
+            <SellOutlined sx={{ color: 'orange' }} />
           </Stack>
         </Stack>
       </Stack>

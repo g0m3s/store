@@ -1,11 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
-import { SellOutlined } from '@mui/icons-material';
-import { CartItem, getCartItems, setNewCartItems } from '../../utils/cartItems';
-import { Box, Stack, Typography } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import Lottie from 'react-lottie'
+import { useEffect, useMemo, useState } from 'react'
+import { SetCurrentScreen } from '../../types/utils'
+import { Box, Stack, Typography } from '@mui/material'
+import { CSScolorfulBackground } from '../../utils/cssStyles'
+import warningAnimation from '../../public/animations/warning.json'
+import { SellOutlined, ShoppingCartOutlined } from '@mui/icons-material'
+import { CartItem, getCartItems, setNewCartItems } from '../../utils/cartItems'
 
-export const Cart: React.FC = () => {
+export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const hasItemsOnCart = cartItems.length > 0
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: warningAnimation,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    },
+  }
 
   const increaseAmount = (productId: number) => {
     const updatedProducts = cartItems.map(product => {
@@ -42,12 +56,12 @@ export const Cart: React.FC = () => {
   }, [])
 
   return (
-    <Stack height='calc(100vh -48px)'>
+    <Stack overflow={hasItemsOnCart ? 'unset' : 'none'} height='calc(92vh - 48px)' mt='8vh'>
       <Stack mt={2} width='100%' direction='row' alignItems='center' justifyContent='space-between'>
         <Typography textAlign='center' variant='h4'><b>Seus produtos</b></Typography>
-        <SellOutlined />
+        <ShoppingCartOutlined />
       </Stack>
-      {cartItems.length > 0 && cartItems.map((cartItem) => (
+      {hasItemsOnCart && cartItems.map((cartItem) => (
         <Stack
           py={1}
           px={1.5}
@@ -104,9 +118,58 @@ export const Cart: React.FC = () => {
           </Stack>
         </Stack>
       ))}
-      <Typography variant='button' mt={2} textAlign='right'>
-        Total: R$ {totalItemsValue.toFixed(2)}
-      </Typography>
+      {hasItemsOnCart && (
+        <Typography variant='button' mt={2} textAlign='right'>
+          Total: R$ {totalItemsValue.toFixed(2)}
+        </Typography>
+      )}
+
+      {!hasItemsOnCart && (
+        <Stack height='100%' alignItems='center' justifyContent='center'>
+          <Lottie
+            width={350}
+            height={200}
+            options={defaultOptions}
+          />
+          <Typography
+            fontSize={24}
+            variant='button'
+            textAlign='center'
+          >
+            <b>Carrinho vazio</b>
+          </Typography>
+          <Stack
+            py={2}
+            px={1.5}
+            mt={1.5}
+            width='80%'
+            color='black'
+            direction='row'
+            bgcolor='white'
+            borderRadius={2}
+            alignItems='center'
+            position='relative'
+            sx={CSScolorfulBackground}
+            justifyContent='space-between'
+            border='1px solid rgba(0,0,0,.1)'
+            onClick={() => setCurrentScreen(1)}
+          >
+            <Typography
+              variant='button'
+              sx={{
+                color: 'transparent',
+                backgroundClip: 'text',
+                mozBackgroundClip: 'text',
+                webkitBackgroundClip: 'text',
+                backgroundImage: 'linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%)',
+              }}
+            >
+              Comprar agora
+            </Typography>
+            <SellOutlined sx={{ color: 'orange' }} />
+          </Stack>
+        </Stack>
+      )}
     </Stack>
   )
 }

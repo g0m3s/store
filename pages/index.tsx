@@ -5,6 +5,7 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Home, Cart } from '../views'
+import { Header } from '../components'
 import { getCartItems } from '../utils/cartItems'
 import { CurrentScreenValues } from '../types/utils'
 import { Stack, Tab, Tabs, Typography, } from '@mui/material'
@@ -12,14 +13,14 @@ import { HouseOutlined, SellOutlined, ShoppingBagOutlined } from '@mui/icons-mat
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<CurrentScreenValues>(1)
-  const hasItemsOnCart = !!getCartItems()
+  const hasItemsOnCart = getCartItems().length > 0
 
   const container = () => {
     switch (currentScreen) {
       case 1:
         return <Home setCurrentScreen={setCurrentScreen} />
       case 2:
-        return <Cart />
+        return <Cart setCurrentScreen={setCurrentScreen} />
       default:
         return <Home setCurrentScreen={setCurrentScreen} />
     }
@@ -28,7 +29,7 @@ export default function App() {
   return (
     <Stack
       sx={{
-        padding: '0 1.5rem',
+        padding: '0 1rem',
         overflowY: 'scroll',
         '*::-webkit-scrollbar': {
           width: '5px',
@@ -45,6 +46,7 @@ export default function App() {
 
       <main>
         <>
+          <Header />
           {container()}
 
           <Stack bgcolor='black' width='100vw' position='fixed' left={0} bottom={0}>

@@ -13,7 +13,7 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   const [productModalIsOpen, setProductModalIsOpen] = useState<boolean>(false)
 
   const BannerExample = () => (
-    <Stack mt={2} borderRadius={2} bgcolor='white' height={100} width={'100%'}>
+    <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor='white' height={100} width={'100%'}>
     </Stack>
   )
 
@@ -23,7 +23,7 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   }
 
   return (
-    <Stack>
+    <Stack mt='8vh'>
       <main>
         <Swiper
           loop={true}
@@ -59,7 +59,7 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
               direction='column'
               alignItems='center'
               justifyContent='center'
-              sx={{ cursor: 'pointer' }}
+              sx={{ cursor: 'pointer', opacity: .85 }}
               onClick={() => onSelectProduct(product)}
             >
               <img
