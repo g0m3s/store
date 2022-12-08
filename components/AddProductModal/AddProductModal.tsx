@@ -1,15 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import 'swiper/css';
+import 'swiper/css'
 import Lottie from 'react-lottie'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { Product } from '../../utils/mockedData'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { SetCurrentScreen } from '../../types/utils';
-import { setNewCartItem } from '../../utils/localStorage';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { SetCurrentScreen } from '../../types/utils'
 import { Dialog, Stack, Typography } from '@mui/material'
+import { setNewCartItem } from '../../utils/localStorage'
+import { useIsDarkMode } from '../../utils/useIsDarkMode'
+import { CSScolorfulBackground } from '../../utils/cssStyles'
 import addToBagAnimation from '../../public/animations/addToBag.json'
-import { SellOutlined, ShoppingBagOutlined } from '@mui/icons-material';
-import { CSScolorfulBackground } from '../../utils/cssStyles';
+import { SellOutlined, ShoppingBagOutlined } from '@mui/icons-material'
 
 interface AddProductModalProps extends SetCurrentScreen {
   isOpen: boolean
@@ -18,9 +19,10 @@ interface AddProductModalProps extends SetCurrentScreen {
 }
 
 export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, product, setCurrentScreen }) => {
+  const isDarkMode = useIsDarkMode()
   const [selectedSize, setSelectedSize] = useState<string>()
-  const [addItemToBag, setAddItemToBag] = useState<boolean>(false)
   const [selectedColor, setSelectedColor] = useState<string>()
+  const [addItemToBag, setAddItemToBag] = useState<boolean>(false)
 
   const onCloseModal = () => {
     setAddItemToBag(false)
@@ -207,9 +209,13 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             borderRadius={2}
             alignItems='center'
             position='relative'
-            sx={CSScolorfulBackground}
+            // sx={CSScolorfulBackground}
             justifyContent='space-between'
-            border='1px solid rgba(0,0,0,.1)'
+            border={`${isDarkMode ? '1.5px' : '1px'} solid transparent`}
+            sx={{
+              background: 'linear-gradient(white, white) padding-box, linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%) border-box',
+            }}
+            // border='1px solid rgba(0,0,0,.1)'
             onClick={() => {
               addToCart()
               setCurrentScreen(2)

@@ -5,17 +5,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { AddProductModal } from '../../components';
 import { SetCurrentScreen } from '../../types/utils';
 import { Grid, Stack, Typography } from '@mui/material';
+import { useIsDarkMode } from '../../utils/useIsDarkMode';
 import { Product, products } from '../../utils/mockedData';
 import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 import { getFavoriteItems, setFavoriteItem } from '../../utils/localStorage';
 
 export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
+  const isDarkMode = useIsDarkMode()
   const [updateFavorites, setUpdateFavorites] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product>()
   const [productModalIsOpen, setProductModalIsOpen] = useState<boolean>(false)
 
   const BannerExample = () => (
-    <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor='white' height={100} width={'100%'}>
+    <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor={isDarkMode ? 'white' : 'black'} height={100} width={'100%'}>
     </Stack>
   )
 
@@ -89,13 +91,12 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
 
                   <Typography
                     variant='body2'
-                    color='#87cefa'
                     fontSize='12px'
                   >
                     R${product.price}
                   </Typography>
                 </Stack>
-                {favoriteItems.find(item => item === product.id) === undefined ? (
+                {favoriteItems.find(item => item === product.id) !== undefined ? (
                   <Bookmark
                     sx={{ opacity: .8, cursor: 'pointer' }}
                     onClick={() => {

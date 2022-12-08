@@ -12,6 +12,7 @@ import { Stack, Tab, Tabs, Typography, } from '@mui/material'
 import { HouseOutlined, SellOutlined, ShoppingBagOutlined } from '@mui/icons-material'
 
 export default function App() {
+
   const [currentScreen, setCurrentScreen] = useState<CurrentScreenValues>(1)
   const hasItemsOnCart = getCartItems().length > 0
 
@@ -64,8 +65,8 @@ export default function App() {
               }}
               onChange={(_, newValue: CurrentScreenValues) => setCurrentScreen(newValue)}
             >
-              <Tab icon={<HouseOutlined sx={{ height: '20px', opacity: .8 }} />} label='' value={1} />
-              <Tab icon={<ShoppingBagOutlined sx={{ height: '20px', opacity: .8 }} />} label='' value={2} />
+              <Tab icon={<HouseOutlined sx={{ height: '20px', opacity: .8, color: 'white' }} />} label='' value={1} />
+              <Tab icon={<ShoppingBagOutlined sx={{ height: '20px', opacity: .8, color: 'white' }} />} label='' value={2} />
             </Tabs>
           </Stack>
           {hasItemsOnCart && (
