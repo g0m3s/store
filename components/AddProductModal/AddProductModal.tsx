@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Product } from '../../utils/mockedData'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { SetCurrentScreen } from '../../types/utils';
-import { setNewCartItem } from '../../utils/cartItems';
+import { setNewCartItem } from '../../utils/localStorage';
 import { Dialog, Stack, Typography } from '@mui/material'
 import addToBagAnimation from '../../public/animations/addToBag.json'
 import { SellOutlined, ShoppingBagOutlined } from '@mui/icons-material';
@@ -143,12 +143,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                       border='1px solid rgba(0,0,0,.1)'
                       color={selectedItemsColor(isSelected)}
                       bgcolor={selectedItemsBgColor(isSelected)}
-                      onClick={() => {
-                        if (isSelected) {
-
-                        }
-                        setSelectedColor(color)
-                      }}
+                      onClick={() => setSelectedColor(color)}
                     >
                       <Typography fontSize='13px' variant='body2'>{color}</Typography>
                     </Stack>
@@ -195,9 +190,9 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             direction='row'
             borderRadius={2}
             alignItems='center'
+            onClick={() => addToCart()}
             justifyContent='space-between'
             sx={{ opacity: .6, cursor: 'pointer' }}
-            onClick={() => addToCart()}
           >
             <Typography variant='button'>Adicionar ao carrinho</Typography>
             <ShoppingBagOutlined />
@@ -215,7 +210,10 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             sx={CSScolorfulBackground}
             justifyContent='space-between'
             border='1px solid rgba(0,0,0,.1)'
-            onClick={() => setCurrentScreen(2)}
+            onClick={() => {
+              addToCart()
+              setCurrentScreen(2)
+            }}
           >
             <Typography
               variant='button'

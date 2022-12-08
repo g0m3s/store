@@ -6,7 +6,7 @@ import { Box, Stack, Typography } from '@mui/material'
 import { CSScolorfulBackground } from '../../utils/cssStyles'
 import warningAnimation from '../../public/animations/warning.json'
 import { SellOutlined, ShoppingCartOutlined } from '@mui/icons-material'
-import { CartItem, getCartItems, setNewCartItems } from '../../utils/cartItems'
+import { CartItem, getCartItems, setNewCartItems } from '../../utils/localStorage'
 
 export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([])

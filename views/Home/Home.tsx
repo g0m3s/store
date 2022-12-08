@@ -1,14 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { Autoplay } from 'swiper'
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { AddProductModal } from '../../components';
 import { SetCurrentScreen } from '../../types/utils';
-import { BookmarkBorder } from '@mui/icons-material';
 import { Grid, Stack, Typography } from '@mui/material';
 import { Product, products } from '../../utils/mockedData';
+import { BookmarkBorder, Bookmark } from '@mui/icons-material';
+import { getFavoriteItems, setFavoriteItem } from '../../utils/localStorage';
 
 export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
+  const [updateFavorites, setUpdateFavorites] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product>()
   const [productModalIsOpen, setProductModalIsOpen] = useState<boolean>(false)
 
@@ -21,6 +23,11 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
     setSelectedProduct(product)
     setProductModalIsOpen(true)
   }
+
+  const favoriteItems = useMemo(() => {
+    return getFavoriteItems()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateFavorites])
 
   return (
     <Stack mt='8vh'>
@@ -59,8 +66,7 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
               direction='column'
               alignItems='center'
               justifyContent='center'
-              sx={{ cursor: 'pointer', opacity: .85 }}
-              onClick={() => onSelectProduct(product)}
+              sx={{ cursor: 'pointer', opacity: .9 }}
             >
               <img
                 style={{
@@ -68,8 +74,9 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
                   borderRadius: 10,
                   objectFit: 'cover',
                 }}
-                src={product.mainImg}
                 alt='product image'
+                src={product.mainImg}
+                onClick={() => onSelectProduct(product)}
               />
               <Stack mt={.5} width='93%' justifyContent='space-between' direction='row'>
                 <Stack>
@@ -88,7 +95,24 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
                     R${product.price}
                   </Typography>
                 </Stack>
-                <BookmarkBorder sx={{ opacity: .8 }} />
+                {favoriteItems.find(item => item === product.id) === undefined ? (
+                  <Bookmark
+                    sx={{ opacity: .8, cursor: 'pointer' }}
+                    onClick={() => {
+                      setFavoriteItem(product.id)
+                      setUpdateFavorites(!updateFavorites)
+                    }}
+                  />
+                ) : (
+                  <BookmarkBorder
+                    sx={{ opacity: .8, cursor: 'pointer' }}
+                    onClick={() => {
+                      setFavoriteItem(product.id)
+                      setUpdateFavorites(!updateFavorites)
+                    }}
+                  />
+                )}
+
               </Stack>
             </Grid>
           ))}

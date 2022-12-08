@@ -7,6 +7,7 @@ export const Header: React.FC = () => {
       sx={{
         top: 0,
         left: 0,
+        zIndex: 9999,
         height: '8vh',
         width: '100vw',
         bgcolor: 'black',
