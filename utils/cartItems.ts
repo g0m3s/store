@@ -1,14 +1,21 @@
+import { Product } from "./mockedData"
+
+export interface CartItem extends Product {
+  amount: number
+  selectedSize?: string
+  selectedColor?: string
+}
 
 export const getCartItems = () => {
   const isValid = typeof window !== 'undefined' && localStorage.getItem('cartItems') !== null
 
   if (isValid) {
-    return JSON.parse(localStorage.getItem('cartItems')!)
+    return JSON.parse(localStorage.getItem('cartItems')!) as CartItem[]
   }
   return []
 }
 
-export const setNewCartItems = (cartItem: any) => {
+export const setNewCartItem = (cartItem: CartItem) => {
   const isValid = typeof window !== 'undefined' && localStorage.getItem('cartItems') !== null
 
   if (isValid) {
@@ -20,4 +27,17 @@ export const setNewCartItems = (cartItem: any) => {
   }
 
   localStorage.setItem('cartItems', JSON.stringify([cartItem]))
+}
+
+export const setNewCartItems = (cartItems: CartItem[]) => {
+  const isValid = typeof window !== 'undefined' && localStorage.getItem('cartItems') !== null
+
+  if (isValid) {
+    const newItems = JSON.stringify(cartItems)
+
+    localStorage.setItem('cartItems', newItems)
+    return
+  }
+
+  localStorage.setItem('cartItems', JSON.stringify(cartItems))
 }

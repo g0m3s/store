@@ -45,8 +45,8 @@ a {
   background-position: center center;
   background-repeat: no-repeat;
 
-  animation: bg-spin 5s linear infinite;
-  -webkit-animation: bg-spin 5s linear infinite;
+  /* animation: bg-spin 5s linear infinite;
+  -webkit-animation: bg-spin 5s linear infinite; */
 }
 
 @property --border-angle {

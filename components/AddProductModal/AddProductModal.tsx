@@ -5,18 +5,19 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Product } from '../../utils/mockedData'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { setNewCartItems } from '../../utils/cartItems';
+import { SetCurrentScreen } from '../../types/utils';
+import { setNewCartItem } from '../../utils/cartItems';
 import { Dialog, Stack, Typography } from '@mui/material'
 import addToBagAnimation from '../../public/animations/addToBag.json'
 import { SellOutlined, ShoppingBagOutlined } from '@mui/icons-material';
 
-interface AddProductModalProps {
+interface AddProductModalProps extends SetCurrentScreen {
   isOpen: boolean
   product?: Product
   onClose: () => void
 }
 
-export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, product }) => {
+export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, product, setCurrentScreen }) => {
   const router = useRouter()
   const [selectedSize, setSelectedSize] = useState<string>()
   const [addItemToBag, setAddItemToBag] = useState<boolean>(false)
@@ -44,11 +45,13 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   }
 
   const addToCart = () => {
-    setNewCartItems({
-      ...product,
-      size: selectedSize,
-      color: selectedColor
+    setNewCartItem({
+      ...product!,
+      amount: 1,
+      selectedSize: selectedSize,
+      selectedColor: selectedColor,
     })
+    setCurrentScreen(2)
   }
 
   useEffect(() => {
@@ -74,6 +77,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
           width: '100%',
           borderRadius: 0,
           bgcolor: 'white',
+          maxHeight: '80vh',
           position: 'fixed',
           borderTopLeftRadius: 40,
           borderTopRightRadius: 40,
@@ -205,6 +209,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             px={1.5}
             mt={1.5}
             direction='row'
+            bgcolor='white'
             borderRadius={2}
             alignItems='center'
             position='relative'
