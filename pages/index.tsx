@@ -23,8 +23,8 @@ export default function App() {
         return <Cart setCurrentScreen={setCurrentScreen} />
       case 3:
         return <FinishOrder />
-      // default:
-      //   return <Home setCurrentScreen={setCurrentScreen} />
+      default:
+        return <Home setCurrentScreen={setCurrentScreen} />
     }
   }
 
@@ -71,7 +71,7 @@ export default function App() {
               {/* <Tab icon={<ShoppingBagOutlined sx={{ height: '20px', opacity: .8, color: 'white' }} />} label='' value={2} /> */}
             </Tabs>
           </Stack>
-          {hasItemsOnCart && (
+          {hasItemsOnCart && currentScreen !== 3 && (
             <Stack
               py={2}
               px={1.5}
