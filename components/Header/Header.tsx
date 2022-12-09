@@ -7,6 +7,7 @@ import { EmailOutlined, Instagram, Menu as MenuItem, Brightness6Sharp } from '@m
 export const Header: React.FC = () => {
   const isDarkMode = useIsDarkMode()
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+
   const Menu = () => (
     <Dialog
       scroll='body'
@@ -22,7 +23,6 @@ export const Header: React.FC = () => {
           borderRadius: 2,
           position: 'fixed',
           maxWidth: '75vw !important',
-          bgcolor: isDarkMode ? 'black' : 'white',
         }
       }}
     >
@@ -49,6 +49,7 @@ export const Header: React.FC = () => {
       </Stack>
     </Dialog>
   )
+
 
   return (
     <Stack

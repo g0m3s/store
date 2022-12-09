@@ -4,17 +4,16 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-import { Home, Cart } from '../views'
 import { Header } from '../components'
+import { Home, Cart, FinishOrder } from '../views'
 import { getCartItems } from '../utils/localStorage'
 import { CurrentScreenValues } from '../types/utils'
 import { Stack, Tab, Tabs, Typography, } from '@mui/material'
 import { HouseOutlined, SellOutlined, ShoppingBagOutlined } from '@mui/icons-material'
 
 export default function App() {
-
-  const [currentScreen, setCurrentScreen] = useState<CurrentScreenValues>(1)
   const hasItemsOnCart = getCartItems().length > 0
+  const [currentScreen, setCurrentScreen] = useState<CurrentScreenValues>(1)
 
   const container = () => {
     switch (currentScreen) {
@@ -22,8 +21,10 @@ export default function App() {
         return <Home setCurrentScreen={setCurrentScreen} />
       case 2:
         return <Cart setCurrentScreen={setCurrentScreen} />
-      default:
-        return <Home setCurrentScreen={setCurrentScreen} />
+      case 3:
+        return <FinishOrder />
+      // default:
+      //   return <Home setCurrentScreen={setCurrentScreen} />
     }
   }
 
@@ -67,6 +68,7 @@ export default function App() {
             >
               <Tab icon={<HouseOutlined sx={{ height: '20px', opacity: .8, color: 'white' }} />} label='' value={1} />
               <Tab icon={<ShoppingBagOutlined sx={{ height: '20px', opacity: .8, color: 'white' }} />} label='' value={2} />
+              {/* <Tab icon={<ShoppingBagOutlined sx={{ height: '20px', opacity: .8, color: 'white' }} />} label='' value={2} /> */}
             </Tabs>
           </Stack>
           {hasItemsOnCart && (
@@ -83,7 +85,7 @@ export default function App() {
               className='boxWithSpinner'
               sx={{ cursor: 'pointer' }}
               justifyContent='space-between'
-              onClick={() => setCurrentScreen(2)}
+              onClick={() => currentScreen === 1 ? setCurrentScreen(2) : setCurrentScreen(3)}
             >
               <Typography>
                 {currentScreen === 1 ? 'Finalizar compra' : 'Continuar para pagamento'}

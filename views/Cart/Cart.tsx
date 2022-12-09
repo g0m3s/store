@@ -58,7 +58,15 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   }, [])
 
   return (
-    <Stack overflow={hasItemsOnCart ? 'unset' : 'none'} height='calc(92vh - 48px)' mt='8vh'>
+    <Stack
+      mt='8vh'
+      height='calc(92vh - 48px)'
+      overflow={hasItemsOnCart ? 'unset' : 'none'}
+      className='testClass'
+      // sx={{
+      //   animation: ''
+      // }}
+    >
       <Stack mt={3} width='100%' direction='row' alignItems='center' justifyContent='space-between'>
         <Typography textAlign='center' variant='h4'><b>Seus produtos</b></Typography>
         <ShoppingCartOutlined />
@@ -76,7 +84,6 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
           position='relative'
           alignItems='center'
           justifyContent='space-between'
-          border='1px solid rgba(0,0,0,.1)'
           sx={{
             color: 'black',
             cursor: 'pointer',
@@ -115,11 +122,11 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
           </Stack>
           <Stack alignItems='center' direction='row' gap={2.5}>
             <Box onClick={() => decreaseAmount(cartItem.id)}>
-              <Typography fontSize={20} variant='button'>-</Typography>
+              <Typography sx={{ cursor: 'pointer' }} fontSize={20} variant='button'>-</Typography>
             </Box>
             <Typography fontSize={20}>{cartItems.find(item => item.id === cartItem.id)?.amount}</Typography>
             <Box onClick={() => increaseAmount(cartItem.id)}>
-              <Typography fontSize={18} variant='button'>+</Typography>
+              <Typography sx={{ cursor: 'pointer' }} fontSize={18} variant='button'>+</Typography>
             </Box>
           </Stack>
         </Stack>

@@ -45,12 +45,31 @@ a {
   background-position: center center;
   background-repeat: no-repeat;
 
-  animation: bg-spin 5s linear infinite;
-  -webkit-animation: bg-spin 5s linear infinite;
+  /* animation: bg-spin 5s linear infinite;
+  -webkit-animation: bg-spin 5s linear infinite; */
 }
 
 @property --border-angle {
   syntax: "<angle>";
   inherits: true;
   initial-value: 0turn;
+}
+
+@keyframes testAnimation {
+  from {opacity: 0; bottom: 0%;}
+    to {opacity: 1; bottom: 50%;}
+}
+/* @keyframes testAnimation {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+} */
+
+.testClass {
+  /* animation-delay: 0s;
+  animation: testAnimation 2s ease-in; */
 }
