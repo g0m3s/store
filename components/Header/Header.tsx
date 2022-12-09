@@ -32,12 +32,7 @@ export const Header: React.FC = () => {
         justifyContent='space-between'
       >
         <Stack>
-          <Typography
-            variant='button'
-          // onClick={() => document.documentElement.setAttribute('data-theme', 'light')}
-          >
-            Tema
-          </Typography>
+          <Typography variant='button'>Tema</Typography>
           <Typography my={2} variant='button'>Instagram</Typography>
           <Typography variant='button'>contado@lunastore.com</Typography>
         </Stack>

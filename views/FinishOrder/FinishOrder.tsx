@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { getCartItems } from '../../utils/localStorage'
 import { useIsDarkMode } from '../../utils/useIsDarkMode'
 import { LocalShippingOutlined, SellOutlined } from '@mui/icons-material'
+import { useRouter } from 'next/router'
 
 interface FormProps {
   taxId: string
@@ -19,6 +20,7 @@ interface FormProps {
 }
 
 export const FinishOrder: React.FC = () => {
+  const router = useRouter()
   const cartItems = getCartItems()
   const isDarkMode = useIsDarkMode()
 
@@ -116,12 +118,12 @@ export const FinishOrder: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
-        window.open(data.sandbox_init_point)
+        router.push(data.sandbox_init_point)
       })
   }
 
   return (
-    <Stack height='85vh' mt='8vh' pb={8}>
+    <Stack justifyContent='space-between' mt='8vh' pb={8}>
       <Stack>
         <Stack justifyContent='space-between' my={3} width='100%' direction='row' alignItems='center'>
           <Typography textAlign='center' variant='h4'><b>Informações de envio</b></Typography>
@@ -161,7 +163,7 @@ export const FinishOrder: React.FC = () => {
 
           <Stack
             py={2}
-            mt={10}
+            mt={6}
             px={1.5}
             type='submit'
             direction='row'
@@ -195,7 +197,7 @@ export const FinishOrder: React.FC = () => {
 
 
 
-      <Stack position='fixed' bottom='50px'>
+      <Stack mt={4}>
         <Typography fontSize={12} variant='body2'>* O tempo estimado para entrega é de 20 dias</Typography>
         <Typography fontSize={12} variant='body2'>* Você será atualizado sobre sua compra no número informado</Typography>
       </Stack>

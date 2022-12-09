@@ -10,16 +10,11 @@ import { Product, products } from '../../utils/mockedData';
 import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 import { getFavoriteItems, setFavoriteItem } from '../../utils/localStorage';
 
-export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
+export const Home: React.FC<SetCurrentScreen & { hasBottomMargin: boolean }> = ({ setCurrentScreen, hasBottomMargin }) => {
   const isDarkMode = useIsDarkMode()
   const [updateFavorites, setUpdateFavorites] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product>()
   const [productModalIsOpen, setProductModalIsOpen] = useState<boolean>(false)
-
-  const BannerExample = () => (
-    <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor={isDarkMode ? 'white' : 'black'} height={100} width={'100%'}>
-    </Stack>
-  )
 
   const onSelectProduct = (product: Product) => {
     setSelectedProduct(product)
@@ -43,10 +38,10 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
           autoplay={{ delay: 2000, disableOnInteraction: true }}
         >
           <SwiperSlide>
-            {BannerExample}
+            <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor={isDarkMode ? 'white' : 'black'} height={100} width={'100%'} />
           </SwiperSlide>
           <SwiperSlide>
-            {BannerExample}
+            <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor={isDarkMode ? 'white' : 'black'} height={100} width={'100%'} />
           </SwiperSlide>
         </Swiper>
 
@@ -119,6 +114,7 @@ export const Home: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
           ))}
         </Grid>
       </main>
+      {hasBottomMargin && (<Stack height='55vh' />)}
 
       <AddProductModal
         product={selectedProduct}

@@ -122,11 +122,11 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
           </Stack>
           <Stack alignItems='center' direction='row' gap={2.5}>
             <Box onClick={() => decreaseAmount(cartItem.id)}>
-              <Typography sx={{ cursor: 'pointer' }} fontSize={20} variant='button'>-</Typography>
+              <Typography sx={{ cursor: 'pointer', userSelect: 'none' }} fontSize={20} variant='button'>-</Typography>
             </Box>
             <Typography fontSize={20}>{cartItems.find(item => item.id === cartItem.id)?.amount}</Typography>
             <Box onClick={() => increaseAmount(cartItem.id)}>
-              <Typography sx={{ cursor: 'pointer' }} fontSize={18} variant='button'>+</Typography>
+              <Typography sx={{ cursor: 'pointer', userSelect: 'none' }} fontSize={18} variant='button'>+</Typography>
             </Box>
           </Stack>
         </Stack>

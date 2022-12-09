@@ -26,7 +26,19 @@ a {
   }
 }
 
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
 @keyframes bg-spin {
+  to {
+    --border-angle: 1turn;
+  }
+}
+
+@-webkit-keyframes bg-spin {
   to {
     --border-angle: 1turn;
   }
@@ -45,20 +57,22 @@ a {
   background-position: center center;
   background-repeat: no-repeat;
 
-  /* animation: bg-spin 5s linear infinite;
-  -webkit-animation: bg-spin 5s linear infinite; */
-}
-
-@property --border-angle {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0turn;
+  animation: bg-spin 5s linear infinite;
+  -webkit-animation: bg-spin 5s linear infinite;
 }
 
 @keyframes testAnimation {
-  from {opacity: 0; bottom: 0%;}
-    to {opacity: 1; bottom: 50%;}
+  from {
+    opacity: 0;
+    bottom: 0%;
+  }
+
+  to {
+    opacity: 1;
+    bottom: 50%;
+  }
 }
+
 /* @keyframes testAnimation {
   0% {
     transform: translateY(100%);

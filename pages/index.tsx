@@ -18,13 +18,13 @@ export default function App() {
   const container = () => {
     switch (currentScreen) {
       case 1:
-        return <Home setCurrentScreen={setCurrentScreen} />
+        return <Home hasBottomMargin={hasItemsOnCart} setCurrentScreen={setCurrentScreen} />
       case 2:
         return <Cart setCurrentScreen={setCurrentScreen} />
       case 3:
         return <FinishOrder />
       default:
-        return <Home setCurrentScreen={setCurrentScreen} />
+        return <Home hasBottomMargin={hasItemsOnCart} setCurrentScreen={setCurrentScreen} />
     }
   }
 
