@@ -60,12 +60,9 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   return (
     <Stack
       mt='8vh'
+      className='testClass'//FIXME
       height='calc(92vh - 48px)'
       overflow={hasItemsOnCart ? 'unset' : 'none'}
-      className='testClass'
-      // sx={{
-      //   animation: ''
-      // }}
     >
       <Stack mt={3} width='100%' direction='row' alignItems='center' justifyContent='space-between'>
         <Typography textAlign='center' variant='h4'><b>Seus produtos</b></Typography>

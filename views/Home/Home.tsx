@@ -114,7 +114,7 @@ export const Home: React.FC<SetCurrentScreen & { hasBottomMargin: boolean }> = (
           ))}
         </Grid>
       </main>
-      {hasBottomMargin && (<Stack height='55vh' />)}
+      <Stack height={hasBottomMargin ? '55vh' : '50vh'} />
 
       <AddProductModal
         product={selectedProduct}

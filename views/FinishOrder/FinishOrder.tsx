@@ -1,12 +1,15 @@
 import * as yup from 'yup'
-import { useMemo } from 'react'
+import Lottie from 'react-lottie'
+import { useRouter } from 'next/router'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Stack, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getCartItems } from '../../utils/localStorage'
 import { useIsDarkMode } from '../../utils/useIsDarkMode'
+import blackLoading from '../../public/animations/blackLoading.json'
+import whiteLoading from '../../public/animations/whiteLoading.json'
 import { LocalShippingOutlined, SellOutlined } from '@mui/icons-material'
-import { useRouter } from 'next/router'
 
 interface FormProps {
   taxId: string
@@ -23,6 +26,7 @@ export const FinishOrder: React.FC = () => {
   const router = useRouter()
   const cartItems = getCartItems()
   const isDarkMode = useIsDarkMode()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const formattedProducts = useMemo(() => {
     const newProducts = cartItems.map(product => ({
@@ -75,6 +79,7 @@ export const FinishOrder: React.FC = () => {
   }
 
   const onSubmit = (data: FormProps) => {
+    setIsLoading(true)
     const userInfos = {
       name: data.fullName,
       surname: '',
@@ -118,8 +123,37 @@ export const FinishOrder: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
+        setIsLoading(false)
         router.push(data.sandbox_init_point)
       })
+  }
+
+  const as = true
+
+  if (isLoading) {
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: isDarkMode ? blackLoading : whiteLoading,
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid slice'
+      },
+    }
+    return (
+      <Stack alignItems='center' justifyContent='center' height='100vh' >
+        <Lottie
+          width={350}
+          height={250}
+          options={defaultOptions}
+        />
+        <Typography fontSize={16} variant='button' textAlign='center'>
+          <b>Carregando...</b>
+        </Typography>
+        <Typography textAlign='center'>
+          você será redirecionado para efetuar o pagamento
+        </Typography>
+      </Stack>
+    )
   }
 
   return (
@@ -194,8 +228,6 @@ export const FinishOrder: React.FC = () => {
           </Stack>
         </Stack>
       </Stack>
-
-
 
       <Stack mt={4}>
         <Typography fontSize={12} variant='body2'>* O tempo estimado para entrega é de 20 dias</Typography>
