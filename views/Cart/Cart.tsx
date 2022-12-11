@@ -35,12 +35,27 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   }
 
   const decreaseAmount = (productId: number) => {
+    let idToRemove = undefined
+
+    const setIdToRemove = (id: number) => {
+      idToRemove = id
+      return 0
+    }
+
     const updatedProducts = cartItems.map(product => {
       return product.id == productId ? {
         ...product,
-        amount: product.amount - 1 < 0 ? 0 : product.amount - 1
+        amount: product.amount - 1 < setIdToRemove(product.id) ? 0 : product.amount - 1
       } : product
     })
+
+    if (idToRemove !== undefined) {
+      const confirmRemoveItem = confirm(`Excluir ${updatedProducts[idToRemove].title} do carrinho?`)
+      if (confirmRemoveItem) {
+        updatedProducts.splice(updatedProducts.indexOf(idToRemove), 1)
+      }
+    }
+
     setNewCartItems(updatedProducts)
     setCartItems(updatedProducts)
   }

@@ -42,8 +42,6 @@ export const setNewCartItems = (cartItems: CartItem[]) => {
   localStorage.setItem('cartItems', JSON.stringify(cartItems))
 }
 
-
-
 export const getFavoriteItems = () => {
   const isValid = typeof window !== 'undefined' && localStorage.getItem('favoriteItemsId') !== null
 

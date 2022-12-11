@@ -8,7 +8,6 @@ import { SetCurrentScreen } from '../../types/utils'
 import { Dialog, Stack, Typography } from '@mui/material'
 import { setNewCartItem } from '../../utils/localStorage'
 import { useIsDarkMode } from '../../utils/useIsDarkMode'
-import { CSScolorfulBackground } from '../../utils/cssStyles'
 import addToBagAnimation from '../../public/animations/addToBag.json'
 import { SellOutlined, ShoppingBagOutlined } from '@mui/icons-material'
 
