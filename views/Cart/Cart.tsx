@@ -53,6 +53,14 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
     return total
   }, [cartItems])
 
+  const totalShippingFeeValue = useMemo(() => {
+    let total = 0
+    cartItems.map(product => {
+      total = total + product.shippingFee
+    })
+    return total
+  }, [cartItems])
+
   useEffect(() => {
     setCartItems(getCartItems())
   }, [])
@@ -86,21 +94,6 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
             cursor: 'pointer',
             border: `${isDarkMode ? '1.5px' : '1px'} solid transparent`,
             background: 'linear-gradient(white, white) padding-box, linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%) border-box',
-            // background: isDarkMode ? 'white' : 'linear-gradient(white, white) padding-box, linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%) border-box',
-            // ':before': isDarkMode ? {
-            //   top: -3,
-            //   left: 0,
-            //   right: 0,
-            //   zIndex: -1,
-            //   opacity: .8,
-            //   content: '""',
-            //   width: '100%',
-            //   height: '110%',
-            //   filter: 'blur(6px)',
-            //   position: 'absolute',
-            //   background: 'linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%)',
-            //   transition: 'all .3s',
-            // } : 'initial'
           }}
         >
           <Stack direction='row'>
@@ -114,7 +107,7 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
             />
             <Stack height='100%' ml={1}>
               <Typography><b>{cartItem.title}</b></Typography>
-              <Typography variant='body2'>R$ {cartItem.price}</Typography>
+              <Typography variant='body2'>R$ {cartItem.price.toFixed(2)}</Typography>
             </Stack>
           </Stack>
           <Stack alignItems='center' direction='row' gap={2.5}>
@@ -131,9 +124,14 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
       }
       {
         hasItemsOnCart && (
-          <Typography variant='button' mt={2} textAlign='right'>
-            Total: R$ {totalItemsValue.toFixed(2)}
-          </Typography>
+          <>
+            <Typography variant='button' mt={2} textAlign='right'>
+              Total: R$ {totalItemsValue.toFixed(2)} + R$ {totalShippingFeeValue.toFixed(2)} (frete)
+            </Typography>
+            <Typography variant='button' mt={2} textAlign='right'>
+              Total com frete: R$ {(totalItemsValue + totalShippingFeeValue).toFixed(2)}
+            </Typography>
+          </>
         )
       }
 

@@ -17,7 +17,7 @@ export default function App() {
 
   const footerHeight = useMemo(() => {
     if (hasItemsOnCart) {
-      return 108
+      return 110
     }
     return 53
   }, [hasItemsOnCart])

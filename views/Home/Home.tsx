@@ -71,6 +71,7 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
                   height: '150px',
                   borderRadius: 10,
                   objectFit: 'contain',
+                  filter: isDarkMode ? 'drop-shadow(0px 0px 3.5px rgba(255,255,255,.5))' : 'none'
                 }}
                 alt='product image'
                 src={product.mainImg}

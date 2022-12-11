@@ -23,6 +23,8 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   const [selectedSize, setSelectedSize] = useState<string>()
   const [selectedColor, setSelectedColor] = useState<string>()
   const [addItemToBag, setAddItemToBag] = useState<boolean>(false)
+  const [haveSizeError, setHaveSizeError] = useState<boolean>(false)
+  const [haveColorError, setHaveColorError] = useState<boolean>(false)
 
   const onCloseModal = () => {
     setAddItemToBag(false)
@@ -46,13 +48,21 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
   }
 
   const addToCart = () => {
-    setNewCartItem({
-      ...product!,
-      amount: 1,
-      selectedSize: selectedSize,
-      selectedColor: selectedColor,
-    })
-    setCurrentScreen(2)
+    if (!selectedSize) {
+      setHaveSizeError(true)
+    }
+    if (!haveColorError) {
+      setHaveColorError(true)
+    }
+    if (selectedSize && haveColorError) {
+      setNewCartItem({
+        ...product!,
+        amount: 1,
+        selectedSize: selectedSize,
+        selectedColor: selectedColor,
+      })
+      setCurrentScreen(2)
+    }
   }
 
   useEffect(() => {
@@ -129,61 +139,67 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
 
           <Stack>
             {product?.color && (
-              <Stack direction='row' alignItems='center'>
-                <Typography mr={.5} variant='body2'>Cor:</Typography>
-                {product.color.map(color => {
-                  const isSelected = selectedColor === color
-                  return (
-                    <Stack
-                      p={.5}
-                      mx={.5}
-                      key={color}
-                      minWidth='50px'
-                      borderRadius={1}
-                      alignItems='center'
-                      justifyContent='center'
-                      sx={{ cursor: 'pointer' }}
-                      border='1px solid rgba(0,0,0,.1)'
-                      color={selectedItemsColor(isSelected)}
-                      bgcolor={selectedItemsBgColor(isSelected)}
-                      onClick={() => setSelectedColor(color)}
-                    >
-                      <Typography fontSize='13px' variant='body2'>{color}</Typography>
-                    </Stack>
-                  )
-                })}
-              </Stack>
+              <>
+                <Stack direction='row' alignItems='center'>
+                  <Typography mr={.5} variant='body2'>Cor:</Typography>
+                  {product.color.map(color => {
+                    const isSelected = selectedColor === color
+                    return (
+                      <Stack
+                        p={.5}
+                        mx={.5}
+                        key={color}
+                        minWidth='50px'
+                        borderRadius={1}
+                        alignItems='center'
+                        justifyContent='center'
+                        sx={{ cursor: 'pointer' }}
+                        border='1px solid rgba(0,0,0,.1)'
+                        color={selectedItemsColor(isSelected)}
+                        bgcolor={selectedItemsBgColor(isSelected)}
+                        onClick={() => setSelectedColor(color)}
+                      >
+                        <Typography fontSize='13px' variant='body2'>{color}</Typography>
+                      </Stack>
+                    )
+                  })}
+                </Stack>
+                {haveColorError && <Typography fontSize={12} color='red' variant='body2'>Obrigatório</Typography>}
+              </>
             )}
             {product?.size && (
-              <Stack mt={1} direction='row' alignItems='center'>
-                <Typography mr={.5} variant='body2'>Tamanho:</Typography>
-                {product.size.map(size => {
-                  const isSelected = selectedSize === size
-                  return (
-                    <Stack
-                      p={.5}
-                      mx={.5}
-                      key={size}
-                      minWidth='50px'
-                      borderRadius={1}
-                      alignItems='center'
-                      justifyContent='center'
-                      sx={{ cursor: 'pointer' }}
-                      border='1px solid rgba(0,0,0,.1)'
-                      color={selectedItemsColor(isSelected)}
-                      bgcolor={selectedItemsBgColor(isSelected)}
-                      onClick={() => {
-                        if (isSelected) {
-                          return
-                        }
-                        setSelectedSize(size)
-                      }}
-                    >
-                      <Typography fontSize='13px' variant='body2'>{size}</Typography>
-                    </Stack>
-                  )
-                })}
-              </Stack>
+              <>
+                <Stack mt={1} direction='row' alignItems='center'>
+                  <Typography mr={.5} variant='body2'>Tamanho:</Typography>
+                  {product.size.map(size => {
+                    const isSelected = selectedSize === size
+                    return (
+                      <Stack
+                        p={.5}
+                        mx={.5}
+                        key={size}
+                        minWidth='50px'
+                        borderRadius={1}
+                        alignItems='center'
+                        justifyContent='center'
+                        sx={{ cursor: 'pointer' }}
+                        border='1px solid rgba(0,0,0,.1)'
+                        color={selectedItemsColor(isSelected)}
+                        bgcolor={selectedItemsBgColor(isSelected)}
+                        onClick={() => {
+                          if (isSelected) {
+                            return
+                          }
+                          setSelectedSize(size)
+                        }}
+                      >
+                        <Typography fontSize='13px' variant='body2'>{size}</Typography>
+                      </Stack>
+                    )
+                  })}
+                </Stack>
+                {haveSizeError && <Typography fontSize={12} color='red' variant='body2'>Obrigatório</Typography>}
+              </>
             )}
           </Stack>
 
@@ -210,17 +226,12 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             borderRadius={2}
             alignItems='center'
             position='relative'
-            // sx={CSScolorfulBackground}
             justifyContent='space-between'
             border={`${isDarkMode ? '1.5px' : '1px'} solid transparent`}
             sx={{
               background: 'linear-gradient(white, white) padding-box, linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%) border-box',
             }}
-            // border='1px solid rgba(0,0,0,.1)'
-            onClick={() => {
-              addToCart()
-              setCurrentScreen(2)
-            }}
+            onClick={() => addToCart()}
           >
             <Typography
               variant='button'
