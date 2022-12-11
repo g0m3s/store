@@ -1,10 +1,10 @@
 import 'swiper/css'
-import { useState } from 'react'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Header } from '../components'
+import { useMemo, useState } from 'react'
 import { Home, Cart, FinishOrder } from '../views'
 import { getCartItems } from '../utils/localStorage'
 import { CurrentScreenValues } from '../types/utils'
@@ -15,16 +15,33 @@ export default function App() {
   const hasItemsOnCart = getCartItems().length > 0
   const [currentScreen, setCurrentScreen] = useState<CurrentScreenValues>(1)
 
+  const footerHeight = useMemo(() => {
+    if (hasItemsOnCart) {
+      return 108
+    }
+    return 53
+  }, [hasItemsOnCart])
+
   const container = () => {
     switch (currentScreen) {
       case 1:
-        return <Home hasBottomMargin={hasItemsOnCart} setCurrentScreen={setCurrentScreen} />
+        return (
+          <Home
+            bottomMargin={footerHeight}
+            setCurrentScreen={setCurrentScreen}
+          />
+        )
       case 2:
         return <Cart setCurrentScreen={setCurrentScreen} />
       case 3:
         return <FinishOrder />
       default:
-        return <Home hasBottomMargin={hasItemsOnCart} setCurrentScreen={setCurrentScreen} />
+        return (
+          <Home
+            bottomMargin={footerHeight}
+            setCurrentScreen={setCurrentScreen}
+          />
+        )
     }
   }
 
@@ -51,12 +68,19 @@ export default function App() {
           <Header />
           {container()}
 
-          <Stack bgcolor='black' width='100vw' position='fixed' left={0} bottom={0}>
+          <Stack
+            left={0}
+            bottom={0}
+            width='100vw'
+            bgcolor='black'
+            position='fixed'
+          >
             <Tabs
               centered
               textColor='inherit'
               variant='fullWidth'
               value={currentScreen}
+              sx={{ height: '50px' }}
               indicatorColor='secondary'
               TabIndicatorProps={{
                 sx: {
@@ -75,9 +99,10 @@ export default function App() {
             <Stack
               py={2}
               px={1.5}
-              bottom={48}
+              bottom={53}
               width='90vw'
               color='white'
+              height='55px'
               direction='row'
               position='fixed'
               borderRadius={1}

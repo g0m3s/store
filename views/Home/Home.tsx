@@ -10,7 +10,7 @@ import { Product, products } from '../../utils/mockedData';
 import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 import { getFavoriteItems, setFavoriteItem } from '../../utils/localStorage';
 
-export const Home: React.FC<SetCurrentScreen & { hasBottomMargin: boolean }> = ({ setCurrentScreen, hasBottomMargin }) => {
+export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ setCurrentScreen, bottomMargin }) => {
   const isDarkMode = useIsDarkMode()
   const [updateFavorites, setUpdateFavorites] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product>()
@@ -27,7 +27,7 @@ export const Home: React.FC<SetCurrentScreen & { hasBottomMargin: boolean }> = (
   }, [updateFavorites])
 
   return (
-    <Stack mt='8vh'>
+    <Stack height={`calc(100vh - ${bottomMargin}px)`} pt='8vh'>
       <main>
         <Swiper
           loop={true}
@@ -68,8 +68,9 @@ export const Home: React.FC<SetCurrentScreen & { hasBottomMargin: boolean }> = (
               <img
                 style={{
                   width: '95%',
+                  height: '150px',
                   borderRadius: 10,
-                  objectFit: 'cover',
+                  objectFit: 'contain',
                 }}
                 alt='product image'
                 src={product.mainImg}
@@ -88,7 +89,7 @@ export const Home: React.FC<SetCurrentScreen & { hasBottomMargin: boolean }> = (
                     variant='body2'
                     fontSize='12px'
                   >
-                    R${product.price}
+                    R${product.price.toFixed(2)}
                   </Typography>
                 </Stack>
                 {favoriteItems.find(item => item === product.id) !== undefined ? (
@@ -114,7 +115,7 @@ export const Home: React.FC<SetCurrentScreen & { hasBottomMargin: boolean }> = (
           ))}
         </Grid>
       </main>
-      <Stack height={hasBottomMargin ? '55vh' : '50vh'} />
+      <Stack mb={bottomMargin / 8} />
 
       <AddProductModal
         product={selectedProduct}

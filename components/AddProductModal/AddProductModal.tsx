@@ -103,8 +103,9 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                     <img
                       style={{
                         width: '100%',
+                        height: '300px',
                         borderRadius: 10,
-                        objectFit: 'cover',
+                        objectFit: 'contain',
                         boxShadow: '0px 0px 10px rgba(0,0,0,.1)'
                       }}
                       src={imgPath}
@@ -123,7 +124,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             textAlign='right'
             sx={{ textShadow: '0px 0px 3px rgba(0,0,0,.25)' }}
           >
-            <b>R$ {product?.price}</b>
+            <b>R$ {product?.price.toFixed(2)}</b>
           </Typography>
 
           <Stack>
