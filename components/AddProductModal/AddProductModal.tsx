@@ -53,7 +53,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
     if (!selectedColor) {
       setHaveColorError(true)
     }
-    if (selectedSize && haveColorError) {
+    if (selectedSize && selectedColor) {
       setNewCartItem({
         ...product!,
         amount: 1,
