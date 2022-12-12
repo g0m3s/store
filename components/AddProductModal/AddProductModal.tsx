@@ -50,7 +50,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
     if (!selectedSize) {
       setHaveSizeError(true)
     }
-    if (!haveColorError) {
+    if (!selectedColor) {
       setHaveColorError(true)
     }
     if (selectedSize && haveColorError) {
@@ -156,7 +156,13 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
                         border='1px solid rgba(0,0,0,.1)'
                         color={selectedItemsColor(isSelected)}
                         bgcolor={selectedItemsBgColor(isSelected)}
-                        onClick={() => setSelectedColor(color)}
+                        // onClick={() => setSelectedColor(color)}
+                        onClick={() => {
+                          if (isSelected) {
+                            return
+                          }
+                          setSelectedColor(color)
+                        }}
                       >
                         <Typography fontSize='13px' variant='body2'>{color}</Typography>
                       </Stack>

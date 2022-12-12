@@ -35,24 +35,26 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
   }
 
   const decreaseAmount = (productId: number) => {
-    let idToRemove = undefined
+    let indexToRemove = undefined
 
-    const setIdToRemove = (id: number) => {
-      idToRemove = id
+    const setIndexToRemove = (id: number) => {
+      indexToRemove = id
+      console.log(indexToRemove);
+
       return 0
     }
 
-    const updatedProducts = cartItems.map(product => {
+    const updatedProducts = cartItems.map((product, index) => {
       return product.id == productId ? {
         ...product,
-        amount: product.amount - 1 < setIdToRemove(product.id) ? 0 : product.amount - 1
+        amount: product.amount - 1 === 0 ? setIndexToRemove(index) : product.amount - 1
       } : product
     })
 
-    if (idToRemove !== undefined) {
-      const confirmRemoveItem = confirm(`Excluir ${updatedProducts[idToRemove].title} do carrinho?`)
+    if (indexToRemove !== undefined) {
+      const confirmRemoveItem = confirm(`Excluir ${updatedProducts[indexToRemove].title} do carrinho?`)
       if (confirmRemoveItem) {
-        updatedProducts.splice(updatedProducts.indexOf(idToRemove), 1)
+        updatedProducts.splice(updatedProducts.indexOf(indexToRemove), 1)
       }
     }
 
@@ -122,7 +124,7 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
             />
             <Stack height='100%' ml={1}>
               <Typography><b>{cartItem.title}</b></Typography>
-              <Typography variant='body2'>R$ {cartItem.price.toFixed(2)}</Typography>
+              <Typography variant='body2'>{cartItem.amount}x R$ {cartItem.price.toFixed(2)}</Typography>
             </Stack>
           </Stack>
           <Stack alignItems='center' direction='row' gap={2.5}>
@@ -141,10 +143,10 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
         hasItemsOnCart && (
           <>
             <Typography variant='button' mt={2} textAlign='right'>
-              Total: R$ {totalItemsValue.toFixed(2)} + R$ {totalShippingFeeValue.toFixed(2)} (frete)
+              Total: <b>R$ {totalItemsValue.toFixed(2)}</b>
             </Typography>
-            <Typography variant='button' mt={2} textAlign='right'>
-              Total com frete: R$ {(totalItemsValue + totalShippingFeeValue).toFixed(2)}
+            <Typography fontSize={12} mt={1} textAlign='right'>
+              Frete: + R$ {totalShippingFeeValue.toFixed(2)}
             </Typography>
           </>
         )
