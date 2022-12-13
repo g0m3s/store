@@ -52,7 +52,7 @@ export const Header: React.FC = () => {
         top: 0,
         left: 0,
         zIndex: 999,
-        height: '8vh',
+        height: '8.1vh',
         width: '100vw',
         bgcolor: 'black',
         position: 'fixed',
