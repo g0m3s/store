@@ -60,6 +60,23 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
         selectedSize: selectedSize,
         selectedColor: selectedColor,
       })
+      onClose()
+    }
+  }
+  const finishOrder = () => {
+    if (!selectedSize) {
+      setHaveSizeError(true)
+    }
+    if (!selectedColor) {
+      setHaveColorError(true)
+    }
+    if (selectedSize && selectedColor) {
+      setNewCartItem({
+        ...product!,
+        amount: 1,
+        selectedSize: selectedSize,
+        selectedColor: selectedColor,
+      })
       setCurrentScreen(2)
     }
   }
@@ -236,7 +253,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             sx={{
               background: 'linear-gradient(white, white) padding-box, linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%) border-box',
             }}
-            onClick={() => addToCart()}
+            onClick={() => finishOrder()}
           >
             <Typography
               variant='button'

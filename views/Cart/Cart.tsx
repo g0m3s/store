@@ -9,7 +9,7 @@ import warningAnimation from '../../public/animations/warning.json'
 import { SellOutlined, ShoppingCartOutlined } from '@mui/icons-material'
 import { CartItem, getCartItems, setNewCartItems } from '../../utils/localStorage'
 
-export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
+export const Cart: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ setCurrentScreen, bottomMargin }) => {
   const isDarkMode = useIsDarkMode()
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const hasItemsOnCart = cartItems.length > 0
@@ -84,9 +84,9 @@ export const Cart: React.FC<SetCurrentScreen> = ({ setCurrentScreen }) => {
 
   return (
     <Stack
-      mt='8vh'
+      pt='8vh'
       className='testClass'//FIXME
-      height='calc(92vh - 48px)'
+      height={`calc(100vh - ${bottomMargin}px)`}
       overflow={hasItemsOnCart ? 'unset' : 'none'}
     >
       <Stack mt={3} width='100%' direction='row' alignItems='center' justifyContent='space-between'>

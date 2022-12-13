@@ -32,7 +32,12 @@ export default function App() {
           />
         )
       case 2:
-        return <Cart setCurrentScreen={setCurrentScreen} />
+        return (
+          <Cart
+            bottomMargin={footerHeight}
+            setCurrentScreen={setCurrentScreen}
+          />
+        )
       case 3:
         return <FinishOrder />
       default:
