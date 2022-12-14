@@ -43,30 +43,17 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
               alt=''
               src={`${banner.src}`}
               style={{
-                width: '100%',
                 height: 100,
+                width: '100%',
+                borderRadius: 10,
                 marginTop: '16px',
                 objectFit: 'contain',
-                borderRadius: 10,
-                backgroundColor: 'white'
+                backgroundColor: 'white',
+                border: '.5px solid rgba(0,0,0,.15)'
+                // border: '.5px solid grey'
               }}
             />
-            {/* <Stack
-              mt={2}
-              height={100}
-              width={'100%'}
-              borderRadius={2}
-              // bgcolor={'red'}
-              // bgcolor={isDarkMode ? 'white' : 'black'}
-              sx={{
-                // opacity: 1,
-                backgroundImage: `${banner.src}`
-              }}
-            /> */}
           </SwiperSlide>
-          {/* <SwiperSlide>
-            <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor={isDarkMode ? 'white' : 'black'} height={100} width={'100%'} />
-          </SwiperSlide> */}
         </Swiper>
 
         <Grid
@@ -81,7 +68,7 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
             <Grid
               item
               xs={6}
-              mb={1}
+              mb={2}
               display='flex'
               key={product.id}
               direction='column'
@@ -110,12 +97,29 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
                     {product.title}
                   </Typography>
 
-                  <Typography
-                    variant='body2'
-                    fontSize='12px'
-                  >
-                    R${product.price.toFixed(2)}
-                  </Typography>
+                  <Stack gap={1} direction='row' alignItems='center'>
+                    <Typography
+                      variant='body2'
+                      fontSize='12px'
+                    >
+                      R${product.price.toFixed(2)}
+                    </Typography>
+                    {product.shippingFee === 0 && (
+                      <Stack
+                        px={.4}
+                        borderRadius={1}
+                        justifyContent='center'
+                        sx={{
+                          background: `linear-gradient(${isDarkMode ? 'black, black' : 'white, white'}) padding-box, linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%) border-box`,
+                          border: '.8px solid transparent',
+                          color: isDarkMode ? 'white' : 'black',
+                          opacity: .9
+                        }}
+                      >
+                        <Typography fontSize={9}>Frete grátis</Typography>
+                      </Stack>
+                    )}
+                  </Stack>
                 </Stack>
                 {favoriteItems.find(item => item === product.id) !== undefined ? (
                   <Bookmark

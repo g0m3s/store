@@ -169,8 +169,28 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             >
               <b>R$ {product?.price.toFixed(2)}</b>
             </Typography>
+            {product?.shippingFee === 0 ? (
+              <Stack width='100%' alignItems='flex-end'>
+                <Stack
+                  px={.4}
+                  borderRadius={1}
+                  justifyContent='center'
+                  sx={{
+                    opacity: .9,
+                    border: '.8px solid transparent',
+                    background: `linear-gradient(white, white) padding-box, linear-gradient(80.42deg, #9A00FF 7.33%, #7241FF 51.42%, orange 92.84%) border-box`,
+                  }}
+                >
+                  <Typography fontSize={9}>Frete grátis</Typography>
+                </Stack>
+              </Stack>
+            ) : (
+              <Typography fontSize={10} mt={1} textAlign='right'>
+                Frete: + R$ {product?.shippingFee.toFixed(2)}
+              </Typography>
+            )}
 
-            <Stack>
+            <Stack mt={1}>
               {product?.color && (
                 <>
                   <Stack direction='row' alignItems='center'>

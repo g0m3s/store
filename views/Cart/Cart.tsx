@@ -125,6 +125,7 @@ export const Cart: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
             <Stack height='100%' ml={1}>
               <Typography><b>{cartItem.title}</b></Typography>
               <Typography variant='body2'>{cartItem.amount}x R$ {cartItem.price.toFixed(2)}</Typography>
+              <Typography color='grey' fontSize={11} variant='body2'>{cartItem.selectedColor} - {cartItem.selectedSize}</Typography>
             </Stack>
           </Stack>
           <Stack alignItems='center' direction='row' gap={2.5}>
