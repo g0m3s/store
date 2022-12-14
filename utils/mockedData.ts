@@ -140,7 +140,7 @@ export const products: Product[] = [
     color: ['Rasgada', 'Frases'],
     size: ['36', '38', '40', '42'],
     mainImg: '/products/calca-wide-leg-1/main.png',
-    description: '',
+    description: '', //fixme
     imgs: ['/products/calca-wide-leg-1/main.png', '/products/calca-wide-leg-1/main2.png', '/products/calca-wide-leg-1/side1.png', '/products/calca-wide-leg-1/side2.png'],
   },
   {
