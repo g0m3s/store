@@ -9,6 +9,7 @@ import { useIsDarkMode } from '../../utils/useIsDarkMode';
 import { Product, products } from '../../utils/mockedData';
 import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 import { getFavoriteItems, setFavoriteItem } from '../../utils/localStorage';
+import banner from '../../public/img/banner.png';
 
 export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ setCurrentScreen, bottomMargin }) => {
   const isDarkMode = useIsDarkMode()
@@ -30,19 +31,42 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
     <Stack height={`calc(100vh - ${bottomMargin}px)`} pt='8vh'>
       <main>
         <Swiper
-          loop={true}
+          // loop={true}
           speed={3000}
           spaceBetween={50}
           slidesPerView={1}
-          modules={[Autoplay]}
-          autoplay={{ delay: 2000, disableOnInteraction: true }}
+        // modules={[Autoplay]}
+        // autoplay={{ delay: 2000, disableOnInteraction: true }}
         >
           <SwiperSlide>
-            <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor={isDarkMode ? 'white' : 'black'} height={100} width={'100%'} />
+            <img
+              alt=''
+              src={`${banner.src}`}
+              style={{
+                width: '100%',
+                height: 100,
+                marginTop: '16px',
+                objectFit: 'contain',
+                borderRadius: 10,
+                backgroundColor: 'white'
+              }}
+            />
+            {/* <Stack
+              mt={2}
+              height={100}
+              width={'100%'}
+              borderRadius={2}
+              // bgcolor={'red'}
+              // bgcolor={isDarkMode ? 'white' : 'black'}
+              sx={{
+                // opacity: 1,
+                backgroundImage: `${banner.src}`
+              }}
+            /> */}
           </SwiperSlide>
-          <SwiperSlide>
+          {/* <SwiperSlide>
             <Stack sx={{ opacity: .8 }} mt={2} borderRadius={2} bgcolor={isDarkMode ? 'white' : 'black'} height={100} width={'100%'} />
-          </SwiperSlide>
+          </SwiperSlide> */}
         </Swiper>
 
         <Grid

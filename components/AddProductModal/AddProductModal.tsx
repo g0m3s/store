@@ -98,6 +98,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
           borderRadius: 0,
           bgcolor: 'white',
           maxHeight: '80vh',
+          overflowX: 'hidden',
           position: 'fixed',
           borderTopLeftRadius: 40,
           borderTopRightRadius: 40,
@@ -172,7 +173,7 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
               {product?.color && (
                 <>
                   <Stack direction='row' alignItems='center'>
-                    <Typography mr={.5} variant='body2'>Cor:</Typography>
+                    <Typography mr={.5} variant='body2'>Cor | modelo:</Typography>
                     {product.color.map(color => {
                       const isSelected = selectedColor === color
                       return (
@@ -205,14 +206,14 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
               )}
               {product?.size && (
                 <>
-                  <Stack mt={1} direction='row' alignItems='center'>
+                  <Stack flexWrap='wrap' mt={1} direction='row' alignItems='center'>
                     <Typography mr={.5} variant='body2'>Tamanho:</Typography>
                     {product.size.map(size => {
                       const isSelected = selectedSize === size
                       return (
                         <Stack
                           p={.5}
-                          mx={.5}
+                          m={.5}
                           key={size}
                           minWidth='50px'
                           borderRadius={1}
