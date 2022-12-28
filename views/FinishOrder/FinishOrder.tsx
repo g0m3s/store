@@ -112,9 +112,9 @@ export const FinishOrder: React.FC = () => {
         ...formattedProducts,
         payer: userInfos,
         back_urls: {
-          success: 'http://localhost:3000',
-          failure: 'http:/localhost:3000',
-          pending: 'http:/localhost:3000'
+          success: 'https://www.lunastore.me?success=true',
+          failure: 'https://www.lunastore.me?success=false',
+          pending: 'https://www.lunastore.me?pending=true'
         },
         auto_return: "approved",
         statement_descriptor: "Luna-store"
@@ -127,8 +127,6 @@ export const FinishOrder: React.FC = () => {
         router.push(data.sandbox_init_point)
       })
   }
-
-  const as = true
 
   if (isLoading) {
     const defaultOptions = {

@@ -10,8 +10,13 @@ import { getCartItems } from '../utils/localStorage'
 import { CurrentScreenValues } from '../types/utils'
 import { Stack, Tab, Tabs, Typography, } from '@mui/material'
 import { HouseOutlined, SellOutlined, ShoppingBagOutlined } from '@mui/icons-material'
+import { AfterBuy } from '../components/AfterBuy'
+import { useRouter } from 'next/router'
+
+type QueryParams = { success?: 'true' | 'false', pending?: 'true' }
 
 export default function App() {
+  const { query } = useRouter()
   const hasItemsOnCart = getCartItems().length > 0
   const [currentScreen, setCurrentScreen] = useState<CurrentScreenValues>(1)
 
@@ -50,6 +55,20 @@ export default function App() {
     }
   }
 
+  const queryState = useMemo(() => {
+    const typedQuery = query as QueryParams
+    if (typedQuery.success === 'true') {
+      return 'successTrue'
+    }
+    if (typedQuery.success === 'false') {
+      return 'successFalse'
+    }
+    if (typedQuery.pending === 'true') {
+      return 'pending'
+    }
+    return undefined
+  }, [query])
+
   return (
     <Stack
       sx={{
@@ -70,6 +89,8 @@ export default function App() {
 
       <main>
         <>
+          {queryState !== undefined && <AfterBuy state={queryState} />}
+
           <Header />
           {container()}
 
