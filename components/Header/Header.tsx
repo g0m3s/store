@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { Dialog, Stack, Typography } from '@mui/material'
 import { useIsDarkMode } from '../../utils/useIsDarkMode'
+import logo from '../../public/img/logo.png'
 import { EmailOutlined, Instagram, Menu as MenuItem, Brightness6Sharp } from '@mui/icons-material'
 
 export const Header: React.FC = () => {
@@ -52,8 +53,8 @@ export const Header: React.FC = () => {
         top: 0,
         left: 0,
         zIndex: 999,
-        height: '8.1vh',
         width: '100vw',
+        height: '52px',
         bgcolor: 'black',
         position: 'fixed',
         borderBottom: `${!isDarkMode ? '2.5px' : '.8px'} solid transparent`,
@@ -64,8 +65,8 @@ export const Header: React.FC = () => {
         <Stack justifyContent='center'>
           <Image
             alt='logo'
-            width={50}
-            height={50}
+            width={46}
+            height={46}
             src='/img/logo.png'
           />
         </Stack>
