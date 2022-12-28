@@ -89,23 +89,24 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
       onClose={onClose}
       PaperProps={{
         sx: {
-          py: 3,
           left: 0,
           right: 0,
           margin: 0,
           bottom: 0,
           width: '100%',
           borderRadius: 0,
-          bgcolor: 'white',
           maxHeight: '80vh',
-          overflowX: 'hidden',
           position: 'fixed',
+          overflowX: 'hidden',
+          bgcolor: 'transparent',
           borderTopLeftRadius: 40,
           borderTopRightRadius: 40,
           maxWidth: '100vw !important',
+          borderTop: '1px solid #9A00FF',
         }
       }}
     >
+
       <Stack
         width='100vw'
         alignItems='center'
@@ -130,36 +131,45 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
 
       {!showSuccessAnimation && (
         <Stack position='relative' alignItems='center' justifyContent='center'>
-          <Stack px={2} height='100%' width='100%'>
+          <Stack maxWidth='100vw'>
+            {product?.imgs && (
+              <Swiper
+                spaceBetween={30}
+                slidesPerView={1}
+                style={{
+                  maxWidth: '100vw',
+                  backdropFilter: 'blur(5px)',
+                  WebkitBackdropFilter: 'blur(5px)',
+                  background: 'rgba(255, 255, 255, .8)',
+                }}
+              >
+                {product?.imgs.map((imgPath, key) => (
+                  <SwiperSlide key={key}>
+                    <img
+                      style={{
+                        width: '100%',
+                        height: '300px',
+                        userSelect: 'none',
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0px 0px 3.5px rgba(255,255,255,.1))',
+                      }}
+                      src={imgPath}
+                      alt='product image'
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
+          </Stack>
+          <Stack sx={{
+            width: '100vw',
+            height: '10px',
+            backdropFilter: 'blur(50px)',
+            WebkitBackdropFilter: 'blur(5px)',
+            background: '-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .8)), to(#FFF))'
+          }} />
+          <Stack pb={3} bgcolor='#FFF' px={2} height='100%' width='100%'>
             <Typography mb={2} textAlign='center' variant='h4'><b>{product?.title}</b></Typography>
-
-            <Stack maxWidth='100vw'>
-              {product?.imgs && (
-                <Swiper
-                  spaceBetween={30}
-                  slidesPerView={1.2}
-                  style={{ maxWidth: '95vw' }}
-                >
-                  {product?.imgs.map((imgPath, key) => (
-                    <SwiperSlide key={key}>
-                      <img
-                        style={{
-                          width: '100%',
-                          height: '300px',
-                          borderRadius: 10,
-                          userSelect: 'none',
-                          objectFit: 'contain',
-                          boxShadow: '0px 0px 10px rgba(0,0,0,.1)'
-                        }}
-                        src={imgPath}
-                        alt='product image'
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              )}
-            </Stack>
-
             <Typography variant='body2' mt={.5}>{product?.description}</Typography>
             <Typography
               mt={.5}
