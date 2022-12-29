@@ -4,14 +4,14 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Header } from '../components'
+import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
+import { AfterBuy } from '../components/AfterBuy'
 import { Home, Cart, FinishOrder } from '../views'
-import { getCartItems } from '../utils/localStorage'
 import { CurrentScreenValues } from '../types/utils'
 import { Stack, Tab, Tabs, Typography, } from '@mui/material'
+import { getCartItems, setNewCartItems } from '../utils/localStorage'
 import { HouseOutlined, SellOutlined, ShoppingBagOutlined } from '@mui/icons-material'
-import { AfterBuy } from '../components/AfterBuy'
-import { useRouter } from 'next/router'
 
 type QueryParams = { success?: 'true' | 'false', pending?: 'true' }
 
@@ -57,13 +57,16 @@ export default function App() {
 
   const queryState = useMemo(() => {
     const typedQuery = query as QueryParams
+
     if (typedQuery.success === 'true') {
+      setNewCartItems([])
       return 'successTrue'
     }
     if (typedQuery.success === 'false') {
       return 'successFalse'
     }
     if (typedQuery.pending === 'true') {
+      setNewCartItems([])
       return 'pending'
     }
     return undefined

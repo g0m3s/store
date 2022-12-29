@@ -10,6 +10,8 @@ import { useIsDarkMode } from '../../utils/useIsDarkMode'
 import blackLoading from '../../public/animations/blackLoading.json'
 import whiteLoading from '../../public/animations/whiteLoading.json'
 import { LocalShippingOutlined, SellOutlined } from '@mui/icons-material'
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from '../../pages/_app'
 
 interface FormProps {
   taxId: string
@@ -29,14 +31,15 @@ export const FinishOrder: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const formattedProducts = useMemo(() => {
-    const newProducts = cartItems.map(product => ({
-      quantity: product.amount,
-      unit_price: product.price,
-      currency_id: 'BRL',
-      title: product.title,
-    }))
     return {
-      items: newProducts
+      items: cartItems.map(product => ({
+        quantity: product.amount,
+        unit_price: product.price,
+        currency_id: 'BRL',
+        title: product.title,
+        color: product.selectedColor,
+        size: product.selectedSize
+      }))
     }
   }, [cartItems])
 
@@ -102,30 +105,37 @@ export const FinishOrder: React.FC = () => {
       }
     }
 
-    fetch('https://api.mercadopago.com/checkout/preferences?access_token=TEST-2695835969132247-091016-b273d891d970e2507fa0e0ce7bf26aff-241738789', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ...formattedProducts,
-        payer: userInfos,
-        back_urls: {
-          success: 'https://www.lunastore.me?success=true',
-          failure: 'https://www.lunastore.me?success=false',
-          pending: 'https://www.lunastore.me?pending=true'
-        },
-        auto_return: "approved",
-        statement_descriptor: "Luna-store"
-      })
+    setDoc(doc(db, '/orders', `${userInfos.identification.number}-${Math.floor(Math.random() * 100000) + 1}-${new Date().getSeconds()}-${new Date().getMilliseconds()}`), {
+      userInfos,
+      products: formattedProducts
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-        setIsLoading(false)
-        router.push(data.sandbox_init_point)
-      })
+      .then(() => // FIXME: TROCAR access_token
+        fetch('https://api.mercadopago.com/checkout/preferences?access_token=TEST-2695835969132247-091016-b273d891d970e2507fa0e0ce7bf26aff-241738789', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            ...formattedProducts,
+            payer: userInfos,
+            back_urls: {
+              success: 'https://www.lunastore.me?success=true',
+              failure: 'https://www.lunastore.me?success=false',
+              pending: 'https://www.lunastore.me?pending=true'
+            },
+            auto_return: "approved",
+            statement_descriptor: "Luna-store"
+          })
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setIsLoading(false)
+            router.push(data.sandbox_init_point)
+            // FIXME: REMOVER O SANDBOX E COLOCAR O DE PROD
+          }))
+      .catch(() => alert('Desculpe, tente novamente'))
+
   }
 
   if (isLoading) {
@@ -163,34 +173,34 @@ export const FinishOrder: React.FC = () => {
         </Stack>
         <Stack component='form' onSubmit={handleSubmit(onSubmit)} gap={2}>
           <Stack>
-            {errors.fullName?.message && (<Typography fontSize={12} color='red'>{errors.fullName?.message}</Typography>)}
             <input style={{ ...inputStyle }} {...register('fullName')} type='text' placeholder='Nome Completo' />
+            {errors.fullName?.message && (<Typography fontSize={12} color='red'>{errors.fullName?.message}</Typography>)}
           </Stack>
           <Stack>
-            {errors.street?.message && (<Typography fontSize={12} color='red'>{errors.street?.message}</Typography>)}
             <input style={{ ...inputStyle }} {...register('street')} type='text' placeholder='Rua' />
+            {errors.street?.message && (<Typography fontSize={12} color='red'>{errors.street?.message}</Typography>)}
           </Stack>
           <Stack>
-            {errors.district?.message && (<Typography fontSize={12} color='red'>{errors.district?.message}</Typography>)}
             <input style={{ ...inputStyle }} {...register('district')} type='text' placeholder='Bairro' />
+            {errors.district?.message && (<Typography fontSize={12} color='red'>{errors.district?.message}</Typography>)}
           </Stack>
           <Stack gap={1} direction='row' width='100%' justifyContent='space-between'>
             <Stack>
-              {errors.houseNumber?.message && (<Typography fontSize={12} color='red'>{errors.houseNumber?.message}</Typography>)}
               <input style={{ ...inputStyle }} {...register('houseNumber')} type='number' placeholder='Número' />
+              {errors.houseNumber?.message && (<Typography fontSize={12} color='red'>{errors.houseNumber?.message}</Typography>)}
             </Stack>
             <Stack>
-              {errors.zipCode?.message && (<Typography fontSize={12} color='red'>{errors.zipCode?.message}</Typography>)}
               <input style={{ ...inputStyle }} {...register('zipCode')} type='number' placeholder='CEP' />
+              {errors.zipCode?.message && (<Typography fontSize={12} color='red'>{errors.zipCode?.message}</Typography>)}
             </Stack>
           </Stack>
           <Stack>
-            {errors.taxId?.message && (<Typography fontSize={12} color='red'>{errors.taxId?.message}</Typography>)}
             <input style={{ ...inputStyle }} {...register('taxId')} type='number' placeholder='CPF' />
+            {errors.taxId?.message && (<Typography fontSize={12} color='red'>{errors.taxId?.message}</Typography>)}
           </Stack>
           <Stack>
-            {errors.phoneNumber?.message && (<Typography fontSize={12} color='red'>{errors.phoneNumber?.message}</Typography>)}
             <input style={{ ...inputStyle }} {...register('phoneNumber')} type='tel' placeholder='Número de telefone (WhatsApp)' />
+            {errors.phoneNumber?.message && (<Typography fontSize={12} color='red'>{errors.phoneNumber?.message}</Typography>)}
           </Stack>
 
           <Stack
