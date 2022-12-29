@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import 'swiper/css'
 import Lottie from 'react-lottie'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Product } from '../../utils/mockedData'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { SetCurrentScreen } from '../../types/utils'
@@ -81,6 +81,13 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
       setCurrentScreen(2)
     }
   }
+
+  useEffect(() => {
+    () => {
+      setSelectedSize(undefined)
+      setSelectedColor(undefined)
+    }
+  }, [])
 
   return (
     <Dialog
@@ -203,8 +210,8 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClos
             <Stack mt={1}>
               {product?.color && (
                 <>
-                  <Stack direction='row' alignItems='center'>
-                    <Typography mr={.5} variant='body2'>Cor | modelo:</Typography>
+                  <Stack flexWrap='wrap' direction='row' alignItems='center'>
+                    <Typography mr={.5} variant='body2'>Cor | Modelo:</Typography>
                     {product.color.map(color => {
                       const isSelected = selectedColor === color
                       return (

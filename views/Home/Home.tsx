@@ -11,6 +11,7 @@ import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 import { getFavoriteItems, setFavoriteItem } from '../../utils/localStorage';
 import banner from '../../public/img/banner.png';
 
+
 export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ setCurrentScreen, bottomMargin }) => {
   const isDarkMode = useIsDarkMode()
   const [updateFavorites, setUpdateFavorites] = useState(false)
@@ -26,6 +27,16 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
     return getFavoriteItems()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateFavorites])
+
+  const shuffledArray = () => {
+    var arr = products
+    for (var i = arr.length - 1; i >= 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr
+  }
+
 
   return (
     <Stack height={`calc(100vh - ${bottomMargin}px)`} pt='8vh'>
@@ -64,7 +75,7 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
           alignItems='center'
           justifyContent='space-between'
         >
-          {products.map(product => (
+          {shuffledArray().map(product => (
             <Grid
               item
               xs={6}
@@ -82,7 +93,7 @@ export const Home: React.FC<SetCurrentScreen & { bottomMargin: number }> = ({ se
                   height: '150px',
                   borderRadius: 10,
                   objectFit: 'contain',
-                  filter: isDarkMode ? 'drop-shadow(0px 0px 3.5px rgba(255,255,255,.5))' : 'none'
+                  filter: isDarkMode ? 'drop-shadow(0px 0px 4px rgba(255,255,255,.3))' : 'none'
                 }}
                 alt='product image'
                 src={product.mainImg}
